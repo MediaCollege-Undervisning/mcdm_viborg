@@ -33,9 +33,6 @@ import ExamSchedule from "./pages/ExamSchedule";
 import Team from "./pages/Team";
 import TeacherPanel from "./pages/TeacherPanel";
 import Materials from "./pages/Materials";
-import Invitation from "./pages/anne/invitation/Invitation";
-import Guests from "./pages/anne/guests/Guests";
-import Invitations from "./pages/anne/invitation/Invitations";
 function App() {
   const { signedIn, user, signOut } = useAuthContext();
   const location = useLocation();
@@ -50,23 +47,10 @@ function App() {
     <ProtectedRoute isAllowed={isAllowed}>{element}</ProtectedRoute>
   );
 
-  // 🧑 Host Routes
   const hostRoutes = [
-    {
-      path: "/admin/guests",
-      element: withProtection(<Guests />, user?.role === "host"),
-    },
-    {
-      path: "/",
-      element: withProtection(<Invitations />, user?.role === "host"),
-    },
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/invitation/guest/:token",
-      element: <Invitation />,
     },
   ];
 
@@ -136,10 +120,6 @@ function App() {
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/invitation/guest/:token",
-      element: <Invitation />,
     },
     {
       path: "/backoffice",

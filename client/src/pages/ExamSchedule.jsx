@@ -15,18 +15,22 @@ const ExamSchedule = ({ event, setShowSchema }) => {
   const [newStudent, setNewStudent] = useState("");
   // const {students} = useFetchTeamUsers()
   const [students, setStudents] = useState([
-    "Laura",
-    "Adi",
-    "Serhii",
-    "Nureddin",
-    "Elsbet",
-    "Mark",
+    "Emilie",
+    "Jeppe",
+    "Joey",
+    "Kasper",
+    "Kristoffer",
+    "Lars",
+    "Lucas",
     "Mathias",
-    "Maria",
-    "Emil",
-    "Marcus",
-    "Juliya",
-    "Gabriel",
+    "Mikkel",
+    "Mirjam",
+    "Nataliya",
+    "Oliver",
+    "Rama",
+    "Silke",
+    "Sofie",
+    "Victoria",
   ]);
   const [schedule, setSchedule] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
