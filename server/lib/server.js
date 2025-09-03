@@ -27,11 +27,6 @@ import eventsRouter from "./routes/events/events.route.js";
 import userRouter from "./routes/users/user.route.js";
 import teamsRouter from "./routes/teams/teams.route.js";
 import teamRouter from "./routes/teams/team.route.js";
-import guestRouter from "./routes/anne/guests/guest.route.js";
-import guestsRouter from "./routes/anne/guests/guests.route.js";
-import overviewRouter from "./routes/anne/guests/overview.js";
-import invitationsRouter from "./routes/anne/invitations/invitations.route.js";
-import invitationRouter from "./routes/anne/invitations/invitation.route.js";
 
 // Opsætning af Express
 const app = express();
@@ -124,15 +119,6 @@ app.use("/api/events", eventsRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/team", teamRouter);
-
-////// ANNE PRIVATE
-
-app.use("/api/invitation", invitationRouter);
-app.use("/api/admin/invitations", invitationsRouter);
-app.use("/api/admin/invitation", invitationRouter);
-app.use("/api/admin/guest", guestRouter);
-app.use("/api/admin/guests", guestsRouter);
-app.use("/api/admin/overview", overviewRouter);
 
 // Håndter SPA-routing
 app.get("*", (req, res) => {
