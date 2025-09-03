@@ -22,11 +22,11 @@ import exercisesRouter from "./routes/exercises/exercises.route.js";
 import exerciseRouter from "./routes/exercises/exercise.route.js";
 import authTokenRouter from "./routes/auth/token.js";
 import uploadRouter from "./routes/upload.route.js";
-import eventRouter from "./routes/events/event.route.js";
-import eventsRouter from "./routes/events/events.route.js";
 import userRouter from "./routes/users/user.route.js";
 import teamsRouter from "./routes/teams/teams.route.js";
 import teamRouter from "./routes/teams/team.route.js";
+import eventRouter from "./routes/events/event.route.js";
+import eventsRouter from "./routes/events/events.route.js";
 
 // Opsætning af Express
 const app = express();
