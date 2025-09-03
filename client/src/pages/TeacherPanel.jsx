@@ -13,6 +13,7 @@ const TeacherPanel = () => {
   const navigate = useNavigate();
   const { signOut } = useAuthContext();
   const [teacher, setTeacher] = useState(null);
+
   useEffect(() => {
     if (userId) {
       fetchUserById(userId)

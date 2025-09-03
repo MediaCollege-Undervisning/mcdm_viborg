@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
-import { mdcPath } from "../helpers/mdcPath";
+import { mdcPath } from "../helpers/mdcPath.js";
 
 dotenv.config(); // Indlæs miljøvariabler fra .env-filen
 
