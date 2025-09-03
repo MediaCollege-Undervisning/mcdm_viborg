@@ -38,19 +38,22 @@ const PresentationSchema = ({ event }) => {
     remainingStudents.length > 0
       ? remainingStudents
       : [
-          "Laura",
-          "Adi",
-          "Serhii",
-          "Nureddin",
-          "Thomas",
-          "Elsbet",
-          "Mark",
+          "Emilie",
+          "Jeppe",
+          "Joey",
+          "Kasper",
+          "Kristoffer",
+          "Lars",
+          "Lucas",
           "Mathias",
-          "Maria",
-          "Emil",
-          "Marcus",
-          "Juliya",
-          "Gabriel",
+          "Mikkel",
+          "Mirjam",
+          "Nataliya",
+          "Oliver",
+          "Rama",
+          "Silke",
+          "Sofie",
+          "Victoria",
         ]
   );
 
