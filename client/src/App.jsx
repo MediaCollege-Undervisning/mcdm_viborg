@@ -61,6 +61,10 @@ function App() {
       element: withProtection(<Invitations />, user?.role === "host"),
     },
     {
+      path: "/login",
+      element: <Login />,
+    },
+    {
       path: "/invitation/guest/:token",
       element: <Invitation />,
     },

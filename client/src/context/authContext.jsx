@@ -61,7 +61,10 @@ export const AuthContextProvider = ({ children }) => {
       location.pathname.includes("backoffice") &&
       !location.pathname.includes("login")
     ) {
+      console.log("🔐 Kalder checkUser – er i backoffice");
       checkUser();
+    } else {
+      console.log("🙂 checkUser kaldes ikke – ikke i backoffice");
     }
   }, [auth.token, location.pathname]);
 
