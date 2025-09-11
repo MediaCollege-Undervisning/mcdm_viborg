@@ -27,7 +27,7 @@ import TeamUsersList from "./components/teams/TeamUsersList";
 import StudentPanel from "./pages/StudentPanel";
 import UserProfile from "./components/UserProfile";
 import { useMemo } from "react";
-import BackArrow from "./components/button/BackArrow";
+// import BackArrow from "./components/button/BackArrow";
 import GroupGenerator from "./pages/GroupGenerator";
 import ExamSchedule from "./pages/ExamSchedule";
 import Team from "./pages/Team";
@@ -37,10 +37,10 @@ function App() {
   const { signedIn, user, signOut } = useAuthContext();
   const location = useLocation();
 
-  const showBackArrow = useMemo(
-    () => location.pathname !== "/" && location.pathname !== "/login",
-    [location.pathname]
-  );
+  // const showBackArrow = useMemo(
+  //   () => location.pathname !== "/" && location.pathname !== "/login",
+  //   [location.pathname]
+  // );
 
   const withProtection = (element, isAllowed = signedIn) => (
     <ProtectedRoute isAllowed={isAllowed}>{element}</ProtectedRoute>
@@ -170,7 +170,7 @@ function App() {
             <img src='/assets/mcdm_logo.png' alt='logo' className='logo' />
           </Link>
           <Navigation />
-          {showBackArrow && <BackArrow />}
+          {/* {showBackArrow && <BackArrow />} */}
         </>
       )}
       <div className='main'>{routes}</div>
