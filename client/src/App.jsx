@@ -42,7 +42,6 @@ function App() {
     [location.pathname]
   );
 
-  // 🔒 Protected wrapper shorthand
   const withProtection = (element, isAllowed = signedIn) => (
     <ProtectedRoute isAllowed={isAllowed}>{element}</ProtectedRoute>
   );
@@ -54,7 +53,6 @@ function App() {
     },
   ];
 
-  // 👤 Default (student, teacher, admin)
   const defaultRoutes = [
     {
       path: "/",
@@ -99,8 +97,6 @@ function App() {
             { path: "edit/:id", element: <FaqForm isEditMode={true} /> },
           ],
         },
-        { path: "exam", element: <Exam /> },
-        { path: "examproject", element: <ExamProject /> },
         {
           path: "events",
           element: <Events />,
@@ -117,6 +113,8 @@ function App() {
         { path: "teacherpanel/:userId/team/:id", element: <Team /> },
       ],
     },
+    { path: "exam", element: <Exam /> },
+    { path: "examproject", element: <ExamProject /> },
     {
       path: "/login",
       element: <Login />,
