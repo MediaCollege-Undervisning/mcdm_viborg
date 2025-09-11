@@ -67,6 +67,13 @@ const Navigation = () => {
             </DropdownToggle>
             {dropdownOpen === "exam" && (
               <DropdownContent onClick={() => toggleDropdown("")}>
+                <StyledExternalLink
+                  onClick={closeMenu}
+                  href='/assets/pdf/Eksamensforberedelse.pdf'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  Eksamensforberedelse
+                </StyledExternalLink>
                 <MainStyledNavLink to='/examproject' onClick={closeMenu}>
                   Eksamensprojektet
                 </MainStyledNavLink>
