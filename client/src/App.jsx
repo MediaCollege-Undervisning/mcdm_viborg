@@ -115,6 +115,7 @@ function App() {
     },
     { path: "exam", element: <Exam /> },
     { path: "examproject", element: <ExamProject /> },
+    { path: "events", element: <Events /> },
     {
       path: "/login",
       element: <Login />,
