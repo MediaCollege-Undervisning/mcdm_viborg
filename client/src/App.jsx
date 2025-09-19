@@ -117,7 +117,7 @@ function App() {
     { path: "exam", element: <Exam /> },
     { path: "examproject", element: <ExamProject /> },
     { path: "events", element: <Events /> },
-    { path: "breakEven", element: <BreakEven /> },
+    { path: "breakeven", element: <BreakEven /> },
     {
       path: "/login",
       element: <Login />,
@@ -162,20 +162,19 @@ function App() {
   ];
 
   const routes = useRoutes(user?.role === "host" ? hostRoutes : defaultRoutes);
-  const isInvitationRoute = location.pathname.startsWith("/breakEven");
+  const isBreakEvenRoute = location.pathname.startsWith("/breakEven");
 
   return (
     <article className='app'>
-      {!isInvitationRoute && user?.role !== "host" && (
-        <>
-          {signedIn && <UserProfile signOut={signOut} user={user} />}
-          <Link to='/'>
-            <img src='/assets/mcdm_logo.png' alt='logo' className='logo' />
-          </Link>
-          <Navigation />
-          {/* {showBackArrow && <BackArrow />} */}
-        </>
-      )}
+      <>
+        {signedIn && <UserProfile signOut={signOut} user={user} />}
+        <Link to='/'>
+          <img src='/assets/mcdm_logo.png' alt='logo' className='logo' />
+        </Link>
+        {!isBreakEvenRoute && <Navigation />}
+        {/* {showBackArrow && <BackArrow />} */}
+      </>
+
       <div className='main'>{routes}</div>
     </article>
   );

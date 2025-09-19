@@ -6,12 +6,6 @@
   box-sizing: border-box;
 }
 
-.logo {
-  height: auto;
-  text-align: start;
-  width: 50%;
-}
-
 .app {
   max-width: 1200px;
   min-height: 800px;
@@ -20,8 +14,11 @@
   font-family: "Titillium Web", sans-serif;
   position: relative;
 
-  img {
-    margin: 20px 0;
+  .logo {
+    height: auto;
+    text-align: start;
+    width: 300px;
+    margin: 10px;
   }
 }
 
