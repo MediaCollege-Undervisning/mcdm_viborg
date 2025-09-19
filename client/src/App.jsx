@@ -117,7 +117,7 @@ function App() {
     { path: "exam", element: <Exam /> },
     { path: "examproject", element: <ExamProject /> },
     { path: "events", element: <Events /> },
-    { path: "breakeven", element: <BreakEven /> },
+    { path: "breakEven", element: <BreakEven /> },
     {
       path: "/login",
       element: <Login />,
