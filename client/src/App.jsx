@@ -33,6 +33,7 @@ import ExamSchedule from "./pages/ExamSchedule";
 import Team from "./pages/Team";
 import TeacherPanel from "./pages/TeacherPanel";
 import Materials from "./pages/Materials";
+import { BreakEven } from "./pages/BreakEven";
 function App() {
   const { signedIn, user, signOut } = useAuthContext();
   const location = useLocation();
@@ -116,6 +117,7 @@ function App() {
     { path: "exam", element: <Exam /> },
     { path: "examproject", element: <ExamProject /> },
     { path: "events", element: <Events /> },
+    { path: "breakEven", element: <BreakEven /> },
     {
       path: "/login",
       element: <Login />,
@@ -160,7 +162,7 @@ function App() {
   ];
 
   const routes = useRoutes(user?.role === "host" ? hostRoutes : defaultRoutes);
-  const isInvitationRoute = location.pathname.startsWith("/invitation");
+  const isInvitationRoute = location.pathname.startsWith("/breakEven");
 
   return (
     <article className='app'>

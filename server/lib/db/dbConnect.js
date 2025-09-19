@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-dotenv.config({ path: `.env.local`, override: true });
+dotenv.config({ path: `.env`, override: true });
 
 if (!process.env.MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
+    "Please define the MONGODB_URI environment variable inside .env"
   );
 }
 

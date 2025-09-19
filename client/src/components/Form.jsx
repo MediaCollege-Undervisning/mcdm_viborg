@@ -26,7 +26,7 @@ const Form = ({ onLogin }) => {
 export default Form;
 
 // 🎨 Styled Components
-const FormContainer = styled.form`
+export const FormContainer = styled.form`
   background: white;
   padding: 2rem;
   border-radius: 10px;
@@ -45,7 +45,7 @@ const Title = styled.h2`
   margin-bottom: 1rem;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   padding: 0.8rem;
   font-size: 1rem;
   border: 2px solid #ddd;
@@ -60,7 +60,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   background: #4ca1af;
   color: white;
   padding: 0.8rem;

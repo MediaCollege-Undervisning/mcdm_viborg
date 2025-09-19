@@ -18,7 +18,7 @@ export const AlertProvider = ({ children }) => {
       text: text,
       icon: "success",
       confirmButtonText: "OK",
-      timer: 2000,
+
       timerProgressBar: true,
       customClass: {
         confirmButton: "custom-confirm-button",
