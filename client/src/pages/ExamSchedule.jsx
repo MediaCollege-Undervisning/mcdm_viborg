@@ -10,28 +10,13 @@ import { InputContainer } from "../styles/formStyles";
 import { ButtonContainer } from "../styles/buttonStyles";
 import { formatDateWithDay } from "../helpers/formatDate.js";
 import Loading from "../components/Loading/Loading.jsx";
-// import useFetchTeamUsers from "../hooks/useFetchTeamUsers.jsx";
+import { useFetchUsers } from "../hooks/useFetchUsers.jsx";
+
 const ExamSchedule = ({ event, setShowSchema }) => {
   const [newStudent, setNewStudent] = useState("");
-  // const {students} = useFetchTeamUsers()
-  const [students, setStudents] = useState([
-    "Emilie",
-    "Jeppe",
-    "Joey",
-    "Kasper",
-    "Kristoffer",
-    "Lars",
-    "Lucas",
-    "Mathias",
-    "Mikkel",
-    "Mirjam",
-    "Nataliya",
-    "Oliver",
-    "Rama",
-    "Silke",
-    "Sofie",
-    "Victoria",
-  ]);
+  const { users, isLoading: isLoadingUsers } = useFetchUsers();
+  const [students, setStudents] = useState([]);
+  const studentsInitialized = useRef(false);
   const [schedule, setSchedule] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [planGenerated, setPlanGenerated] = useState(false);
@@ -46,6 +31,24 @@ const ExamSchedule = ({ event, setShowSchema }) => {
   const pdfRef = useRef();
   const { showSuccess } = useAlert();
   const { updateEvent } = useFetchEvents();
+
+  // Hent eleverne fra databasen (kun første gang der kommer brugere ind)
+  useEffect(() => {
+    if (studentsInitialized.current || users.length === 0) return;
+    studentsInitialized.current = true;
+
+    const studentNames = users
+      .filter((user) => user.role === "student")
+      .map((user) => user.name)
+      .sort((a, b) => a.localeCompare(b, "da"));
+
+    setStudents(studentNames);
+
+    // Fjern gamle elever fra localStorage, som ikke længere findes i databasen
+    setRemainingStudents((prev) =>
+      prev.filter((student) => studentNames.includes(student))
+    );
+  }, [users, setRemainingStudents]);
 
   const handleDownloadPDF = () => {
     if (schedule.length === 0) {
@@ -126,7 +129,7 @@ const ExamSchedule = ({ event, setShowSchema }) => {
     setRemainingStudents([]);
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingUsers) {
     return <Loading />;
   }
 

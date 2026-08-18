@@ -3,6 +3,7 @@ import ActionButton from "../components/button/ActionButton";
 import { useAlert } from "../context/Alert";
 import Loading from "../components/Loading/Loading";
 import useFetchEvents from "../hooks/useFetchEvents";
+import { useFetchUsers } from "../hooks/useFetchUsers";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { downloadPDF } from "../helpers/downloadPdf.js";
 import { InputContainer } from "../styles/formStyles.jsx";
@@ -34,28 +35,29 @@ const PresentationSchema = ({ event }) => {
     []
   );
 
-  const [students, setStudents] = useState(
-    remainingStudents.length > 0
-      ? remainingStudents
-      : [
-          "Emilie",
-          "Jeppe",
-          "Joey",
-          "Kasper",
-          "Kristoffer",
-          "Lars",
-          "Lucas",
-          "Mathias",
-          "Mikkel",
-          "Mirjam",
-          "Nataliya",
-          "Oliver",
-          "Rama",
-          "Silke",
-          "Sofie",
-          "Victoria",
-        ]
-  );
+  const { users, isLoading: isLoadingUsers } = useFetchUsers();
+  const [students, setStudents] = useState(remainingStudents);
+  const studentsInitialized = useRef(false);
+
+  // Hent eleverne fra databasen (kun første gang der kommer brugere ind)
+  useEffect(() => {
+    if (studentsInitialized.current || users.length === 0) return;
+    studentsInitialized.current = true;
+
+    const studentNames = users
+      .filter((user) => user.role === "student")
+      .map((user) => user.name)
+      .sort((a, b) => a.localeCompare(b, "da"));
+
+    // Fjern gamle elever fra localStorage, som ikke længere findes i databasen
+    const savedStudents = remainingStudents.filter((student) =>
+      studentNames.includes(student)
+    );
+    setRemainingStudents(savedStudents);
+
+    // Har vi gemte elever fra en tidligere plan, bruger vi dem
+    setStudents(savedStudents.length > 0 ? savedStudents : studentNames);
+  }, [users, remainingStudents, setRemainingStudents]);
 
   // Inddel i grupper
   const [groups, setGroups] = useState([]);
@@ -151,9 +153,10 @@ const PresentationSchema = ({ event }) => {
 
   const generateSchedule = () => {
     const shuffledStudents = [...students].sort(() => Math.random() - 0.5);
+
     const startTime = 9;
     const endTime = 13;
-    const duration = 0.5;
+    const duration = 0.5; // 30 min
     const timeSlots = [];
     let currentTime = startTime;
 
@@ -161,30 +164,41 @@ const PresentationSchema = ({ event }) => {
       const hours = Math.floor(currentTime);
       const minutes = (currentTime % 1) * 60;
 
-      if (hours === 11 && (minutes === 30 || minutes === 45)) {
-        currentTime = 12;
-        continue;
-      }
+      // (Bevar evt. din eksisterende speciallogik her, hvis ønsket)
+      // Fx hvis du VIL springe 11:30 over:
+      // if (hours === 11 && minutes === 30) {
+      //   currentTime = 12;
+      //   continue;
+      // }
 
       const time = `${hours}:${minutes === 0 ? "00" : "30"}`;
       timeSlots.push(time);
       currentTime += duration;
     }
 
-    const assignTimeSlots = (students, day) =>
-      students.map((student, index) => ({
+    const assignTimeSlots = (list, day) =>
+      list.map((student, index) => ({
         name: student,
-        time: timeSlots[index] || "Ingen tid tilbage", // Brug tid kun hvis den eksisterer
+        time: timeSlots[index] || "Ingen tid tilbage",
         day,
       }));
 
     const eventDay = new Date(event.date).getDay();
+    const dayNamesLocal = [
+      "Søndag",
+      "Mandag",
+      "Tirsdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lørdag",
+    ];
+    const eventWeekdayName = dayNamesLocal[eventDay] || "Mandag";
 
+    // Map til dine dag-navne (Mandag=1 ... Fredag=5)
     const matchingDay =
       parseInt(
-        Object.keys(dayNames).find(
-          (key) => dayNames[key] === getWeekdayName(eventDay)
-        )
+        Object.keys(dayNames).find((key) => dayNames[key] === eventWeekdayName)
       ) || 1;
 
     const firstDay = matchingDay;
@@ -193,10 +207,10 @@ const PresentationSchema = ({ event }) => {
     let newSchedule = [];
 
     if (shuffledStudents.length <= timeSlots.length) {
-      // 🔹 Alle elever kan være på én dag
+      // Alle kan på dag 1
       newSchedule = [...assignTimeSlots(shuffledStudents, firstDay)];
     } else {
-      // 🔹 Fyld første dag helt op, og sæt resten på dag to
+      // Fyld dag 1, resten på dag 2
       const day1Students = shuffledStudents.slice(0, timeSlots.length);
       const day2Students = shuffledStudents.slice(timeSlots.length);
 
@@ -206,10 +220,21 @@ const PresentationSchema = ({ event }) => {
       ];
     }
 
+    // 🔹 Indsæt PAUSE 10:00–10:30 på dag 1 (vist lige før 10:30-slotten)
+    const insertAt = timeSlots.indexOf("10:30");
+    if (insertAt !== -1) {
+      newSchedule.splice(insertAt, 0, {
+        isBreak: true,
+        time: "10:00–10:30",
+        day: firstDay,
+      });
+    }
+
     setSchedule(newSchedule);
 
+    // 🔹 Overskydende elever (ignorer pause)
     const studentsOnEventDay = newSchedule
-      .filter((item) => item.day == matchingDay)
+      .filter((item) => item.day == matchingDay && !item.isBreak)
       .map((item) => item.name);
 
     const uniqueRemainingStudents = [
@@ -227,7 +252,7 @@ const PresentationSchema = ({ event }) => {
     setSchedule([]);
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingUsers) {
     return <Loading />;
   }
 

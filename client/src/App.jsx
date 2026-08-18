@@ -34,6 +34,7 @@ import Team from "./pages/Team";
 import TeacherPanel from "./pages/TeacherPanel";
 import Materials from "./pages/Materials";
 import { BreakEven } from "./pages/BreakEven";
+import PresentationSchema from "./pages/PresentationSchema";
 function App() {
   const { signedIn, user, signOut } = useAuthContext();
   const location = useLocation();
@@ -130,6 +131,7 @@ function App() {
       ),
       children: [
         { path: "users", element: <Users /> },
+        { path: "presentations", element: <PresentationSchema /> },
         {
           path: "teams",
           element: <Teams />,
