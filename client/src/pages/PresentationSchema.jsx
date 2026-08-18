@@ -213,9 +213,15 @@ const PresentationSchema = ({ event }) => {
       // Alle kan på dag 1
       newSchedule = [...assignTimeSlots(shuffledStudents, firstDay)];
     } else {
-      // Fyld dag 1, resten på dag 2
-      const day1Students = shuffledStudents.slice(0, timeSlots.length);
-      const day2Students = shuffledStudents.slice(timeSlots.length);
+      // Fordel eleverne ligeligt: 10 elever der ikke kan nås på én dag
+      // bliver til 5 på dag 1 og 5 på dag 2
+      const numberOfDays = Math.ceil(
+        shuffledStudents.length / timeSlots.length
+      );
+      const studentsPerDay = Math.ceil(shuffledStudents.length / numberOfDays);
+
+      const day1Students = shuffledStudents.slice(0, studentsPerDay);
+      const day2Students = shuffledStudents.slice(studentsPerDay);
 
       newSchedule = [
         ...assignTimeSlots(day1Students, firstDay),
