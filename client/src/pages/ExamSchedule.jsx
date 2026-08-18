@@ -75,7 +75,7 @@ const ExamSchedule = ({ event, setShowSchema }) => {
 
         if (success) {
           setTimeout(() => {
-            setShowSchema(false);
+            setShowSchema?.(false);
           }, 100);
         }
       })();
@@ -93,6 +93,9 @@ const ExamSchedule = ({ event, setShowSchema }) => {
     setStudents(students.filter((student) => student !== name));
   };
 
+  // Uden et event (fx via /backoffice/examSchedule) bruger vi dagens dato
+  const examDay = formatDateWithDay(event?.date ?? new Date());
+
   const generateSchedule = () => {
     const activeStudents =
       remainingStudents.length > 0 ? remainingStudents : students;
@@ -100,24 +103,31 @@ const ExamSchedule = ({ event, setShowSchema }) => {
       () => Math.random() - 0.5
     );
 
-    let currentSchedule = [];
-    let remaining = [];
-    let currentHour = 9;
+    // Tider fra kl. 9 til 16 – frokostpausen kl. 12 springes over
+    const timeSlots = [];
+    for (let hour = 9; hour < 16; hour++) {
+      if (hour === 12) continue;
+      timeSlots.push(`${hour}:00`);
+    }
 
-    shuffledStudents.forEach((student) => {
-      if (currentHour === 12) currentHour = 13; // Spring frokostpausen over
+    // Fordel eleverne ligeligt: 10 elever der ikke kan nås på én dag
+    // bliver til 5 i dag og 5 til næste eksamensdag
+    const numberOfDays = Math.max(
+      1,
+      Math.ceil(shuffledStudents.length / timeSlots.length)
+    );
+    const studentsPerDay = Math.ceil(shuffledStudents.length / numberOfDays);
 
-      if (currentHour >= 16) {
-        remaining.push(student); // Elever der ikke kan få en tid
-      } else {
-        currentSchedule.push({
-          name: student,
-          day: formatDateWithDay(event.date),
-          time: `${currentHour}:00`,
-        });
-        currentHour++;
-      }
-    });
+    const currentSchedule = shuffledStudents
+      .slice(0, studentsPerDay)
+      .map((student, index) => ({
+        name: student,
+        day: examDay,
+        time: timeSlots[index],
+      }));
+
+    const remaining = shuffledStudents.slice(studentsPerDay);
+
     setSchedule(currentSchedule);
     setRemainingStudents(remaining); // Opdater remaining students
     setPlanGenerated(true);
@@ -199,11 +209,13 @@ const ExamSchedule = ({ event, setShowSchema }) => {
 
             <ButtonContainer>
               <ActionButton onClick={resetSchedule} buttonText='Nulstil plan' />
-              <ActionButton
-                onClick={handleDownloadPDF}
-                buttonText='Upload PDF'
-                background='green'
-              />
+              {event && (
+                <ActionButton
+                  onClick={handleDownloadPDF}
+                  buttonText='Upload PDF'
+                  background='green'
+                />
+              )}
             </ButtonContainer>
           </Section>
 
@@ -222,9 +234,7 @@ const ExamSchedule = ({ event, setShowSchema }) => {
             <h3 style={{ fontSize: "15px" }}>Eksamensplan</h3>
             {schedule.length > 0 && (
               <div>
-                <h3 style={{ fontSize: "10px" }}>
-                  {formatDateWithDay(event.date)}
-                </h3>
+                <h3 style={{ fontSize: "10px" }}>{examDay}</h3>
                 <List>
                   {schedule.map((student, index) => (
                     <ListItem style={{ fontSize: "8px" }} key={index}>

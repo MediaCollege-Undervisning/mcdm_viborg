@@ -130,8 +130,11 @@ const PresentationSchema = ({ event }) => {
     setStudents(students.filter((student) => student !== name));
   };
 
+  // Uden et event (fx via /backoffice/presentations) bruger vi dagens dato
+  const eventDate = event?.date ?? new Date();
+
   const handleButtonClicked = () => {
-    const eventDay = new Date(event.date).getDay();
+    const eventDay = new Date(eventDate).getDay();
     const weekdayMapping = {
       1: 1,
       2: 2,
@@ -183,7 +186,7 @@ const PresentationSchema = ({ event }) => {
         day,
       }));
 
-    const eventDay = new Date(event.date).getDay();
+    const eventDay = new Date(eventDate).getDay();
     const dayNamesLocal = [
       "Søndag",
       "Mandag",
@@ -321,10 +324,12 @@ const PresentationSchema = ({ event }) => {
                     onClick={handleNewPlan}
                     buttonText='📅 Lav ny fremlæggelsesplan'
                   />
-                  <ActionButton
-                    onClick={() => setIsDownloadingPDF(true)}
-                    buttonText='📥 Upload plan'
-                  />
+                  {event && (
+                    <ActionButton
+                      onClick={() => setIsDownloadingPDF(true)}
+                      buttonText='📥 Upload plan'
+                    />
+                  )}
                 </ButtonContainer>
               </Section>
 
