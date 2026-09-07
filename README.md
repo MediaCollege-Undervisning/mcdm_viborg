@@ -1,7 +1,7 @@
 # Infoskærm – Mediacollege Viborg
 
 Fælles elevprojekt: en infoskærm der kører i fuld skærm på skolens skærme og viser
-nyheder, skema, frokostmenu, ur, vejr og andre praktiske informationer til elever
+nyheder, skema, ur, vejr og andre praktiske informationer til elever
 og undervisere.
 
 Skærmen kører i et loop uden nogen til at betjene den. Det er den vigtigste
