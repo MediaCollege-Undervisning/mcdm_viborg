@@ -1,0 +1,63 @@
+/* Grundlæggende styles for infoskærmen.
+   Design til 1920×1080 i landscape (16:9), fuld skærm. Mørk baggrund og høj
+   kontrast, så indholdet kan læses på afstand. Ingen scroll - alt skal være
+   inde i skærmbilledet. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: #0d1117;
+  color: #ffffff;
+  /* Ingen interaktion: skjul markøren på selve skærmen. */
+  cursor: none;
+  overflow: hidden;
+}
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem;
+}
+
+/* Læsbar på afstand: store overskrifter, brødtekst mindst ~24px. */
+h1 {
+  font-size: 4rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+code {
+  font-family: ui-monospace, "Cascadia Code", "Courier New", monospace;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}

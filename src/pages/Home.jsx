@@ -1,0 +1,20 @@
+/* Startskærmen. Her samles infoskærmens moduler (ur, menu, nyheder, vejr ...).
+   Data hentet af homeLoader (se DataLoaders.jsx) læses med useLoaderData():
+
+     import { useLoaderData } from "react-router-dom";
+     const data = useLoaderData();
+*/
+
+const Home = () => {
+  return (
+    <article className='home'>
+      <h1>Infoskærm – Mediacollege Viborg</h1>
+      <p>
+        Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
+        vis dem her.
+      </p>
+    </article>
+  );
+};
+
+export default Home;

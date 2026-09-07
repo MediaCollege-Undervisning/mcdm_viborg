@@ -1,0 +1,10 @@
+.error {
+  margin: auto;
+  width: 80%;
+  color: #ffffff;
+  text-align: center;
+}
+
+.error h2 {
+  color: #ffffff;
+}
