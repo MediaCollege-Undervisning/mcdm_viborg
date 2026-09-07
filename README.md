@@ -11,7 +11,10 @@ automatisk opdatering.
 ## Teknologi
 
 - React 19
+- React Router 7 (`createBrowserRouter` med loaders)
 - Vite 8 (dev-server og build)
+- react-spinners (loading-indikator)
+- CSS Modules til komponenter + almindelig CSS til globale styles
 - ESLint
 
 ## Kom i gang
@@ -27,42 +30,74 @@ npm run dev
 
 Dev-serveren starter typisk på http://localhost:5173.
 
+Serveradressen til API'et sættes ét sted: `src/settings.jsx` (`serverPath`).
+
 ### Scripts
 
-| Kommando          | Hvad den gør                                  |
-| ----------------- | --------------------------------------------- |
-| `npm run dev`     | Starter udviklingsserver med hot reload       |
-| `npm run build`   | Bygger produktionsversionen til `dist/`       |
-| `npm run preview` | Viser den byggede version lokalt              |
-| `npm run lint`    | Kører ESLint på projektet                     |
+| Kommando          | Hvad den gør                            |
+| ----------------- | --------------------------------------- |
+| `npm run dev`     | Starter udviklingsserver med hot reload |
+| `npm run build`   | Bygger produktionsversionen til `dist/` |
+| `npm run preview` | Viser den byggede version lokalt        |
 
 ## Mappestruktur
 
 ```
-public/          Statiske filer der kopieres direkte med (ikoner, favicon)
+public/                     Statiske filer der serveres direkte (logo, ikoner)
 src/
-  assets/        Billeder og grafik der importeres i komponenter
-  App.jsx        Rodkomponenten – her samles skærmens moduler
-  main.jsx       Entry point, mounter React i index.html
-  index.css      Globale styles
-index.html       HTML-skabelonen Vite bygger ud fra
+  assets/                   Billeder og grafik der importeres i komponenter
+  components/
+    layouts/AppLayout.jsx   Rammen om skærmen – renderer det aktive modul
+    loading/                Loading-indikator (vist mens loaders henter data)
+    feedbackElements/       ErrorElement – vises hvis en loader fejler
+  context/
+    ScreenContext.jsx       Selve context-objektet
+    ScreenProvider.jsx      Provider med fælles skærm-tilstand
+    useScreenContext.jsx    Hook til at læse tilstanden
+  hooks/
+    useRotation.jsx         Roterer indhold på en timer
+  loaders/
+    DataLoaders.jsx         Henter data, før et modul vises
+  pages/
+    Home.jsx                Startskærmen – her samles modulerne
+    404.jsx                 Ukendte ruter
+  styles/
+    main.css                Samler alle css-filer med @import
+    base/_base.css          Globale grundstyles
+  Routes.jsx                Alle ruter defineres her
+  main.jsx                  Entry point – ScreenProvider + RouterProvider
+  settings.jsx              Fælles indstillinger, fx serverPath
+index.html                  HTML-skabelonen Vite bygger ud fra
 ```
 
-Efterhånden som projektet vokser, lægger vi komponenter i `src/components/` –
-én mappe pr. modul på skærmen.
+Flowet gennem appen: `main.jsx` → `Routes.jsx` → `AppLayout` → `<Outlet />`,
+hvor det aktive modul renderes.
+
+## Sådan tilføjer du et modul
+
+Hvert modul er en selvstændig del af skærmen. Én elev/gruppe pr. modul, så vi
+kan arbejde parallelt uden at træde hinanden over tæerne.
+
+1. Lav komponenten i `src/components/ditModul/DitModul.jsx`
+2. Skal modulet hente data? Tilføj en loader i `src/loaders/DataLoaders.jsx`
+3. Registrér modulet som en rute i `src/Routes.jsx` med `loader` og
+   `errorElement={<ErrorElement />}`
+4. Læs data i komponenten med `useLoaderData()`
+5. Lav en css-fil i `src/styles/` og importér den i `styles/main.css` – eller
+   brug et CSS Module (`ditModul.module.css`) ved siden af komponenten
+6. Vis modulet på startskærmen i `src/pages/Home.jsx`
+
+Skal indhold skifte automatisk, kan `useRotation(items, intervalMs)` bruges –
+den rydder selv op efter sin timer.
 
 ## Moduler på skærmen
-
-Skærmen består af selvstændige moduler. Hver elev/gruppe har ansvar for sine
-egne moduler, så vi kan arbejde parallelt uden at træde hinanden over tæerne.
 
 Idéer til moduler:
 
 - Ur og dato
 - Dagens skema / lokaleoversigt
-- Kantinens menu
 - Nyheder og beskeder fra skolen
-- Vejrudsigt
+- Vejrudsigt + fysisk temperatur
 - Billedkarrusel fra elevprojekter
 - Nedtælling til deadlines og eksamen
 - Bus- og togtider
@@ -73,20 +108,21 @@ Idéer til moduler:
   Der er hverken mus eller touch på skærmen.
 - **Læsbar på afstand.** Brødtekst minimum ca. 24px, overskrifter væsentligt
   større. Høj kontrast.
-- **Fast format.** Design til 1920×1080 i landscape (16:9), fuld skærm.
+- **Fast format.** Design til 1920×1080 i landscape (16:9), fuld skærm, uden
+  scroll.
 - **Skift automatisk.** Indhold der ikke kan være der på én gang, roterer på
   timer – giv brugeren tid nok til at læse det.
 - **Tåler at køre i døgndrift.** Ingen memory leaks: ryd op efter
   `setInterval`/`setTimeout` og event listeners i `useEffect`.
-- **Fejl må ikke vælte skærmen.** Hvis et API ikke svarer, viser modulet
-  seneste kendte data eller en neutral besked – resten af skærmen kører videre.
+- **Fejl må ikke vælte skærmen.** Fejler en loader, fanger `ErrorElement` det og
+  viser en neutral besked – resten af skærmen kører videre.
 
 ## Sådan arbejder vi sammen
 
 1. Hent nyeste version: `git pull`
-2. Lav en branch til din opgave: `git checkout -b modul/frokostmenu`
+2. Lav en branch til din opgave: `git checkout -b modul/temperature`
 3. Commit i små, forståelige bidder med en beskrivende besked
-4. Push din branch: `git push -u origin modul/frokostmenu`
+4. Push din branch: `git push -u origin modul/temperature`
 5. Åbn en pull request på GitHub og få den reviewet, før den merges til `main`
 
 Commit aldrig direkte til `main`, og commit ikke `node_modules/` eller `dist/`
@@ -94,7 +130,8 @@ Commit aldrig direkte til `main`, og commit ikke `node_modules/` eller `dist/`
 
 ## Kodekonventioner
 
-- Komponenter navngives i PascalCase: `FrokostMenu.jsx`
+- Komponenter navngives i PascalCase: `Temperature.jsx`
 - Én komponent pr. fil, og filen hedder det samme som komponenten
+- Mapper i camelCase: `src/components/temperature/`
+- CSS Modules navngives efter komponenten: `temperature.module.css`
 - Brug funktionskomponenter og hooks – ingen klassekomponenter
-- Kør `npm run lint`, før du åbner en pull request
