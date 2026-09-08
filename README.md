@@ -25,12 +25,32 @@ Kræver Node.js 20 eller nyere.
 git clone https://github.com/AnneLund/mcdm_viborg.git
 cd mcdm_viborg
 npm install
+cp .env.example .env
 npm run dev
 ```
 
 Dev-serveren starter typisk på http://localhost:5173.
 
-Serveradressen til API'et sættes ét sted: `src/settings.jsx` (`serverPath`).
+### Miljøvariabler (API-adresse)
+
+Adressen til API'et er **ikke** hardkodet — den sættes via env-variablen
+`VITE_API_BASE` og læses i `src/settings.jsx`.
+
+**Lokalt:** kopiér `.env.example` til `.env` (den peger allerede på det live API):
+
+```bash
+cp .env.example .env
+```
+
+Kører du API'et lokalt i stedet, så sæt `VITE_API_BASE=http://localhost:3055`.
+Skriv adressen **uden** skråstreg til sidst.
+
+**Produktion (DigitalOcean):** sæt `VITE_API_BASE` som env-variabel på appen.
+Vite læser variablen ved **build**, så appen skal bygges/deployes igen, når du
+ændrer den.
+
+`.env` ligger i `.gitignore` og må aldrig committes — kun `.env.example` deles.
+Skift env-variabler kræver en genstart af dev-serveren (`npm run dev`).
 
 ### Scripts
 

@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Env-filer (må ikke committes) — kun .env.example deles
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
