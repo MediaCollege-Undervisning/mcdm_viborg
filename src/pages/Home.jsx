@@ -15,6 +15,7 @@ const Home = () => {
         Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
         vis dem her.
       </p>
+      <Time />
     </article>
   );
 };
