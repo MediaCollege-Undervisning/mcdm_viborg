@@ -6,17 +6,18 @@
 */
 
 import { ProgressVideo } from "../components/ProgressVideo/ProgressVideo";
+import Time from "../components/timeDisplay/timeDisplay";
 
 const Home = () => {
   return (
-    <article className='home'>
+    <article className="home">
       <h1>Infoskærm</h1>
       <p>
         Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
         vis dem her.
       </p>
-
       <ProgressVideo />
+      <Time />
     </article>
   );
 };

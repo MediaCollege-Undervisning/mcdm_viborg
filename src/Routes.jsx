@@ -37,9 +37,9 @@ const routes = createBrowserRouter(
         errorElement={<ErrorElement />}
       /> */}
 
-      <Route path='*' element={<NotFound />} />
-    </Route>
-  )
+      <Route path="*" element={<NotFound />} />
+    </Route>,
+  ),
 );
 
 export default routes;
