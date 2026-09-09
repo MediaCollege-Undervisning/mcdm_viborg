@@ -42,9 +42,6 @@ Adressen til API'et er **ikke** hardkodet — den sættes via env-variablen
 cp .env.example .env
 ```
 
-Kører du API'et lokalt i stedet, så sæt `VITE_API_BASE=http://localhost:3055`.
-Skriv adressen **uden** skråstreg til sidst.
-
 **Produktion (DigitalOcean):** sæt `VITE_API_BASE` som env-variabel på appen.
 Vite læser variablen ved **build**, så appen skal bygges/deployes igen, når du
 ændrer den.
@@ -59,6 +56,58 @@ Skift env-variabler kræver en genstart af dev-serveren (`npm run dev`).
 | `npm run dev`     | Starter udviklingsserver med hot reload |
 | `npm run build`   | Bygger produktionsversionen til `dist/` |
 | `npm run preview` | Viser den byggede version lokalt        |
+
+## API-endpoints
+
+Alle data kommer fra det fælles API (adressen sættes med `VITE_API_BASE`, se
+ovenfor). Live: `https://squid-app-uaozl.ondigitalocean.app`.
+
+Alle svar har samme form:
+
+```json
+{ "status": "ok", "message": "…", "data": { … } }
+```
+
+Loaderne læser derfor typisk `json.data`.
+
+### Skema — det infoskærmen mest bruger (kun læsning)
+
+| Metode | Sti                      | Returnerer                                  |
+| ------ | ------------------------ | ------------------------------------------- |
+| GET    | `/schedule`              | Liste over hold                             |
+| GET    | `/schedule/:hold`        | Hele holdets skema (alle uger)              |
+| GET    | `/schedule/:hold/today`  | Dagens fag for holdet                       |
+
+- Hold: `WebH125-2`, `WebH126-1`, `WebGF22602`, `WebH126-2` (store/små bogstaver
+  er ligegyldigt).
+- `/schedule/:hold/today` har feltet `text` (færdig tekst) og `type`
+  (`"class"` eller `"holiday"`). Test en anden dag med `?date=YYYY-MM-DD`.
+- Skemaet er **fælles** for alle — brug ikke `?id=` her.
+
+### Enheder (ESP32) — bruges af de fysiske moduler
+
+Tilføj `?id=<dit-id>` til disse, så hver enhed/gruppe har sit eget "rum".
+
+| Metode          | Sti             | Body                    | Retning         |
+| --------------- | --------------- | ----------------------- | --------------- |
+| GET / PUT       | `/display`      | `{ "text": "…" }`       | React → enhed   |
+| GET / PUT       | `/led`          | `{ "color": "on\|off\|blink\|red\|yellow\|green" }` | React → enhed |
+| GET · POST · DELETE | `/button` · `/button/press` · `/button` | — | enhed → React |
+| GET / PUT       | `/sensor`       | `{ "value": 22.4 }`     | enhed → React (fx temperatur) |
+| GET / PUT       | `/distance`     | `{ "value": 42.5 }`     | enhed → React (fx afstand i cm) |
+
+### Eksempel: hent dagens fag i en loader
+
+```js
+import { serverPath } from "../settings";
+
+export const scheduleLoader = async () => {
+  const res = await fetch(`${serverPath}/schedule/WebH126-1/today`);
+  if (!res.ok) throw new Response("Kunne ikke hente skema", { status: res.status });
+  const json = await res.json();
+  return json.data; // { hold, date, text, type, subject, teacher, room, ... }
+};
+```
 
 ## Mappestruktur
 

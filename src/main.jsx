@@ -17,5 +17,5 @@ createRoot(document.getElementById("root")).render(
     <ScreenProvider>
       <RouterProvider router={routes} />
     </ScreenProvider>
-  </StrictMode>
+  </StrictMode>,
 );

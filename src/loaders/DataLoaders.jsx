@@ -14,21 +14,34 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
-// Lille hjælper for nyheder
+// Nyheder ligger på et selvstændigt feed (VITE_API_NEWS), ikke på vores eget
+// API - derfor sin egen hjælper med fuld URL i stedet for serverPath + path.
 const getNewsData = async (errorText = "Fejl ved hentning") => {
   const res = await fetch(newsPath);
-  const data = await res.json();
-  console.log(data);
   if (!res.ok) throw new Response(errorText, { status: res.status });
-  return data;
+  return res.json();
 };
+
+// Holdene, hvis skema vi viser på startskærmen.
+const holds = ["WebH125-2", "WebH126-1", "WebGF22602", "WebH126-2"];
 
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
-  const news = await getNewsData("Kunne ikke hente nyheder");
-  return { news };
-};
+  const [news, scheduleResults] = await Promise.all([
+    getNewsData("Kunne ikke hente nyheder"),
+    Promise.all(
+      holds.map((hold) =>
+        getData(
+          `/schedule/${encodeURIComponent(hold)}/today`,
+          `Kunne ikke hente skema for ${hold}`
+        )
+      )
+    ),
+  ]);
 
-// Undgår "getData er defineret men ikke brugt"-advarsel, indtil den bruges i
-// jeres egne loaders ovenfor. Fjern denne linje, når I bruger getData.
-void getData;
+  const schedules = scheduleResults
+    .filter((result) => result.status === "ok")
+    .map((result) => result.data);
+
+  return { news, schedules };
+};
