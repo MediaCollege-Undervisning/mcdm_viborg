@@ -5,14 +5,16 @@
      const data = useLoaderData();
 */
 
+import { useLoaderData } from "react-router-dom";
+import News from "../components/news/News";
+
 const Home = () => {
+
+  const { news } = useLoaderData();
+
   return (
     <article className='home'>
-      <h1>Infoskærm</h1>
-      <p>
-        Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
-        vis dem her.
-      </p>
+      <News news={news} />
     </article>
   );
 };

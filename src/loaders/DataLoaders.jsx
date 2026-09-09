@@ -1,4 +1,4 @@
-import { serverPath } from "../settings";
+import { serverPath, newsPath } from "../settings";
 
 /* Loaders HENTER data, før et modul vises (kaldes automatisk af React Router).
    Resultatet læses i komponenten med useLoaderData().
@@ -14,12 +14,19 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
+// Lille hjælper for nyheder
+const getNewsData = async (errorText = "Fejl ved hentning") => {
+  const res = await fetch(newsPath);
+  const data = await res.json();
+  console.log(data);
+  if (!res.ok) throw new Response(errorText, { status: res.status });
+  return data;
+};
+
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
-  // TODO (code-along): hent rigtige data, når API'et er klar, fx:
-  // const news = await getData("/news", "Kunne ikke hente nyheder");
-  // return { news };
-  return {};
+  const news = await getNewsData("Kunne ikke hente nyheder");
+  return { news };
 };
 
 // Undgår "getData er defineret men ikke brugt"-advarsel, indtil den bruges i

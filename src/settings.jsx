@@ -10,3 +10,5 @@ const raw =
 
 // Fjern evt. skråstreg(er) til sidst, så loaderne kan sætte "/schedule" direkte på.
 export const serverPath = raw.replace(/\/+$/, "");
+export const newsPath =
+  import.meta.env.VITE_API_NEWS;
