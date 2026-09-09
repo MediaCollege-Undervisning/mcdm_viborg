@@ -72,11 +72,11 @@ Loaderne læser derfor typisk `json.data`.
 
 ### Skema — det infoskærmen mest bruger (kun læsning)
 
-| Metode | Sti                      | Returnerer                                  |
-| ------ | ------------------------ | ------------------------------------------- |
-| GET    | `/schedule`              | Liste over hold                             |
-| GET    | `/schedule/:hold`        | Hele holdets skema (alle uger)              |
-| GET    | `/schedule/:hold/today`  | Dagens fag for holdet                       |
+| Metode | Sti                     | Returnerer                     |
+| ------ | ----------------------- | ------------------------------ |
+| GET    | `/schedule`             | Liste over hold                |
+| GET    | `/schedule/:hold`       | Hele holdets skema (alle uger) |
+| GET    | `/schedule/:hold/today` | Dagens fag for holdet          |
 
 - Hold: `WebH125-2`, `WebH126-1`, `WebGF22602`, `WebH126-2` (store/små bogstaver
   er ligegyldigt).
@@ -88,13 +88,13 @@ Loaderne læser derfor typisk `json.data`.
 
 Tilføj `?id=<dit-id>` til disse, så hver enhed/gruppe har sit eget "rum".
 
-| Metode          | Sti             | Body                    | Retning         |
-| --------------- | --------------- | ----------------------- | --------------- |
-| GET / PUT       | `/display`      | `{ "text": "…" }`       | React → enhed   |
-| GET / PUT       | `/led`          | `{ "color": "on\|off\|blink\|red\|yellow\|green" }` | React → enhed |
-| GET · POST · DELETE | `/button` · `/button/press` · `/button` | — | enhed → React |
-| GET / PUT       | `/sensor`       | `{ "value": 22.4 }`     | enhed → React (fx temperatur) |
-| GET / PUT       | `/distance`     | `{ "value": 42.5 }`     | enhed → React (fx afstand i cm) |
+| Metode              | Sti                                     | Body                                                | Retning                         |
+| ------------------- | --------------------------------------- | --------------------------------------------------- | ------------------------------- |
+| GET / PUT           | `/display`                              | `{ "text": "…" }`                                   | React → enhed                   |
+| GET / PUT           | `/led`                                  | `{ "color": "on\|off\|blink\|red\|yellow\|green" }` | React → enhed                   |
+| GET · POST · DELETE | `/button` · `/button/press` · `/button` | —                                                   | enhed → React                   |
+| GET / PUT           | `/sensor`                               | `{ "value": 22.4 }`                                 | enhed → React (fx temperatur)   |
+| GET / PUT           | `/distance`                             | `{ "value": 42.5 }`                                 | enhed → React (fx afstand i cm) |
 
 ### Eksempel: hent dagens fag i en loader
 
@@ -103,7 +103,8 @@ import { serverPath } from "../settings";
 
 export const scheduleLoader = async () => {
   const res = await fetch(`${serverPath}/schedule/WebH126-1/today`);
-  if (!res.ok) throw new Response("Kunne ikke hente skema", { status: res.status });
+  if (!res.ok)
+    throw new Response("Kunne ikke hente skema", { status: res.status });
   const json = await res.json();
   return json.data; // { hold, date, text, type, subject, teacher, room, ... }
 };

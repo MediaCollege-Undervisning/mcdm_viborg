@@ -18,23 +18,18 @@ const Schedule = ({ schedules = [] }) => {
       </header>
 
       {schedules.map((schedule) => (
-        <article
-          key={schedule.hold}
-          className={styles.ScheduleCard}
-        >
+        <article key={schedule.hold} className={styles.ScheduleCard}>
           <h2>{schedule.hold}</h2>
 
           <div className={styles.ScheduleInfo}>
             <h3>{schedule.subject}</h3>
 
             <p>
-              <strong>Lærer:</strong>{" "}
-              {schedule.teacher || "—"}
+              <strong>Lærer:</strong> {schedule.teacher || "—"}
             </p>
 
             <p>
-              <strong>Lokale:</strong>{" "}
-              {schedule.room || "—"}
+              <strong>Lokale:</strong> {schedule.room || "—"}
             </p>
           </div>
         </article>

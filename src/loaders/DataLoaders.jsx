@@ -33,9 +33,9 @@ export const homeLoader = async () => {
       holds.map((hold) =>
         getData(
           `/schedule/${encodeURIComponent(hold)}/today`,
-          `Kunne ikke hente skema for ${hold}`
-        )
-      )
+          `Kunne ikke hente skema for ${hold}`,
+        ),
+      ),
     ),
   ]);
 
