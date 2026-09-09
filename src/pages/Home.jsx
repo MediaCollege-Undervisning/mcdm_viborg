@@ -8,7 +8,7 @@
 const Home = () => {
   return (
     <article className='home'>
-      <h1>Infoskærm – Mediacollege Viborg</h1>
+      <h1>Infoskærm</h1>
       <p>
         Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
         vis dem her.
