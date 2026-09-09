@@ -1,4 +1,4 @@
-import { serverPath } from "../settings";
+import { serverPath, newsPath } from "../settings";
 
 /* Loaders HENTER data, før et modul vises (kaldes automatisk af React Router).
    Resultatet læses i komponenten med useLoaderData().
@@ -14,36 +14,34 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
-const holds = [
-  "WebH125-2",
-  "WebH126-1",
-  "WebGF22602",
-  "WebH126-2",
-];
+// Nyheder ligger på et selvstændigt feed (VITE_API_NEWS), ikke på vores eget
+// API - derfor sin egen hjælper med fuld URL i stedet for serverPath + path.
+const getNewsData = async (errorText = "Fejl ved hentning") => {
+  const res = await fetch(newsPath);
+  if (!res.ok) throw new Response(errorText, { status: res.status });
+  return res.json();
+};
+
+// Holdene, hvis skema vi viser på startskærmen.
+const holds = ["WebH125-2", "WebH126-1", "WebGF22602", "WebH126-2"];
 
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
-  // TODO (code-along): hent rigtige data, når API'et er klar, fx:
-  // const news = await getData("/news", "Kunne ikke hente nyheder");
-  // return { news };
-
-  const scheduleResults = await Promise.all(
-    holds.map((hold) =>
-      getData(
-        `/schedule/${encodeURIComponent(hold)}/today`,
-        `Kunne ikke hente skema for ${hold}`
-      )
-    )
-  );
+  const [news, scheduleResults] = await Promise.all([
+    getNewsData("Kunne ikke hente nyheder"),
+    Promise.all(
+      holds.map((hold) =>
+        getData(
+          `/schedule/${encodeURIComponent(hold)}/today`,
+          `Kunne ikke hente skema for ${hold}`,
+        ),
+      ),
+    ),
+  ]);
 
   const schedules = scheduleResults
     .filter((result) => result.status === "ok")
     .map((result) => result.data);
-    
-  return { schedules };
+
+  return { news, schedules };
 };
-
-
-// Undgår "getData er defineret men ikke brugt"-advarsel, indtil den bruges i
-// jeres egne loaders ovenfor. Fjern denne linje, når I bruger getData.
-void getData;

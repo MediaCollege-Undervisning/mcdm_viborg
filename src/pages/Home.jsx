@@ -6,19 +6,20 @@
 */
 import { useLoaderData } from "react-router-dom";
 import Schedule from "../components/scheduleComp/ScheduleComp";
-
 import { ProgressVideo } from "../components/ProgressVideo/ProgressVideo";
 import Time from "../components/timeDisplay/timeDisplay";
+import News from "../components/news/News";
 
 const Home = () => {
-    const data = useLoaderData();
+  const { news, schedules } = useLoaderData();
 
   return (
     <article className="home">
-     <Time />
+      <Time />
       <h1>Infoskærm</h1>
-      <Schedule schedules={data.schedules} />
+      <Schedule schedules={schedules} />
       <ProgressVideo />
+      <News news={news} />
     </article>
   );
 };

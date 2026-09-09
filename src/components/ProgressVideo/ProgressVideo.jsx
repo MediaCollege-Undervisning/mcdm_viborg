@@ -4,7 +4,14 @@ import cloudTimelapse from "../../assets/video/cloud-timelapse.mp4";
 export function ProgressVideo() {
   return (
     <>
-      <video className={s.video} src={cloudTimelapse} autoPlay muted loop playsInline></video>
+      <video
+        className={s.video}
+        src={cloudTimelapse}
+        autoPlay
+        muted
+        loop
+        playsInline
+      ></video>
     </>
   );
 }

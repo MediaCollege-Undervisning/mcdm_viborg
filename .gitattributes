@@ -1,0 +1,3 @@
+# Normalisér linjeskift: alle tekstfiler bruger LF i repoet (undgår CRLF/LF-støj
+# mellem Windows-maskiner, som ellers kan få hele filer til at se ændrede ud).
+* text=auto eol=lf
