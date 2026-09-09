@@ -1,0 +1,57 @@
+.ScheduleContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.ScheduleHeader {
+  grid-column: 1 / -1;
+  border: 1px solid;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.75rem;
+}
+
+.ScheduleHeader h1,
+.ScheduleHeader p {
+  margin: 0;
+}
+
+.ScheduleHeader p {
+  text-transform: capitalize;
+}
+
+.ScheduleCard {
+  border: 1px solid;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 0.75rem;
+}
+
+.ScheduleCard h2,
+.ScheduleCard h3,
+.ScheduleCard p {
+  margin: 0;
+}
+
+.ScheduleCard h2 {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid;
+}
+
+.ScheduleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ScheduleInfo p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}

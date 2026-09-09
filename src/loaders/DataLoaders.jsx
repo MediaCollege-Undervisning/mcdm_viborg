@@ -14,13 +14,35 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
+const holds = [
+  "WebH125-2",
+  "WebH126-1",
+  "WebGF22602",
+  "WebH126-2",
+];
+
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
   // TODO (code-along): hent rigtige data, når API'et er klar, fx:
   // const news = await getData("/news", "Kunne ikke hente nyheder");
   // return { news };
-  return {};
+
+  const scheduleResults = await Promise.all(
+    holds.map((hold) =>
+      getData(
+        `/schedule/${encodeURIComponent(hold)}/today`,
+        `Kunne ikke hente skema for ${hold}`
+      )
+    )
+  );
+
+  const schedules = scheduleResults
+    .filter((result) => result.status === "ok")
+    .map((result) => result.data);
+    
+  return { schedules };
 };
+
 
 // Undgår "getData er defineret men ikke brugt"-advarsel, indtil den bruges i
 // jeres egne loaders ovenfor. Fjern denne linje, når I bruger getData.
