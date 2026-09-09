@@ -7,17 +7,18 @@
 import { useLoaderData } from "react-router-dom";
 import Schedule from "../components/scheduleComp/ScheduleComp";
 
+import { ProgressVideo } from "../components/ProgressVideo/ProgressVideo";
+import Time from "../components/timeDisplay/timeDisplay";
+
 const Home = () => {
     const data = useLoaderData();
 
   return (
-    <article className='home'>
+    <article className="home">
+     <Time />
       <h1>Infoskærm</h1>
-      <p>
-        Skelettet er klar. Byg jeres moduler i <code>src/components/</code> og
-        vis dem her.
-      </p>
       <Schedule schedules={data.schedules} />
+      <ProgressVideo />
     </article>
   );
 };

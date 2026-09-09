@@ -1,0 +1,6 @@
+.video {
+  outline: 16px solid rgb(27, 46, 66);
+  border-radius: 16px;
+  width: 512px;
+  margin-top: 32px;
+}
