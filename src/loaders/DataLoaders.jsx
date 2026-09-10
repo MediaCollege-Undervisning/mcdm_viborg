@@ -28,7 +28,10 @@ const holds = ["WebH125-2", "WebH126-1", "WebGF22602", "WebH126-2"];
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
   const [news, scheduleResults] = await Promise.all([
-    getNewsData("Kunne ikke hente nyheder"),
+    // Nyhedsfeedet er en ekstern kilde uden for vores kontrol (kan fejle pga.
+    // CORS, nede API o.l.) - fejler den, skal resten af skærmen stadig vises.
+    // News-komponenten håndterer selv news === null.
+    getNewsData("Kunne ikke hente nyheder").catch(() => null),
     Promise.all(
       holds.map((hold) =>
         getData(

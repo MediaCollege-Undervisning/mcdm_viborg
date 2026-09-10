@@ -1,0 +1,109 @@
+/* Fælles styling for uddannelsesmodulerne (FTP, Foto, web). */
+
+.eduWrapper {
+  width: 100%;
+  height: 100%;
+  padding: 60px 80px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  text-align: left;
+}
+
+.eduLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.6rem;
+  color: #aaa;
+}
+
+.eduHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 24px;
+}
+
+.eduLabel {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ff3e3e;
+  text-transform: uppercase;
+}
+
+.eduTitle {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.eduDuration {
+  font-size: 1.3rem;
+  color: #d1d1d6;
+}
+
+.eduLink {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 12px;
+  padding: 12px 24px;
+  background-color: #ff3e3e;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.eduSubjects {
+  width: 100%;
+  text-align: left;
+}
+
+.eduSubjectsTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.eduSubjectsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 40px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.eduSubjectsList li {
+  font-size: 1.4rem;
+  color: #d1d1d6;
+  padding-left: 20px;
+  text-align: left;
+  position: relative;
+}
+
+.eduSubjectsList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ff3e3e;
+}
