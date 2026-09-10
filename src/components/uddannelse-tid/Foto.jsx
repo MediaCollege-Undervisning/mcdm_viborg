@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getFotograf } from "../uddannelse-tid/server/api";
-import "./Faelles.css";
+import "./faelles.css";
 const images = [
   {
     src: "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?auto=format&fit=crop&w=1800&q=85",
