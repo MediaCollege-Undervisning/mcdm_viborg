@@ -21,13 +21,12 @@ const Home = () => {
   // Modulerne der skifter på skærmen. 'key' sikrer, at hvert modul mountes på
   // ny, når det kommer frem (fx så en video starter forfra).
   const modules = [
-    <Time key="time" />,
     <Schedule key="schedule" schedules={schedules} />,
     <ProgressVideo key="video" />,
     <News key="news" news={news} />,
-    <Web key="web"/>,
-    <FTP key="ftp"/>,
-    <Foto key="foto"/>
+    <Web key="web" />,
+    <FTP key="ftp" />,
+    <Foto key="foto" />,
   ];
 
   // Viser ét modul ad gangen og skifter hvert 10. sekund (10000 ms).
@@ -37,8 +36,9 @@ const Home = () => {
   // Kun {active} skifter hvert 10. sekund nedenunder.
   return (
     <article className="home">
+      <Time key="time" />
       <h1>MediaCollege Denmark</h1>
-      {active}
+      <div className="moduleSlot">{active}</div>
     </article>
   );
 };

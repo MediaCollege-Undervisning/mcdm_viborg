@@ -26,7 +26,7 @@ const Web = () => {
     return <div className="uddannelse-loading">Henter uddannelse...</div>;
   }
 
-  const { name, duration, grundforlobWeeks, subjects, link } = education;
+  const { name, duration, grundforlobWeeks, subjects } = education;
 
   return (
     <section className="uddannelse-wrapper">
@@ -46,17 +46,6 @@ const Web = () => {
             </li>
           ))}
         </ul>
-      )}
-
-      {link && (
-        <a
-          href={link}
-          className="uddannelse-link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Læs mere
-        </a>
       )}
     </section>
   );

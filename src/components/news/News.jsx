@@ -1,7 +1,6 @@
 import styles from "./news.module.css";
 
 const News = ({ news }) => {
-  console.log(news);
 
   if (!news || !news.results || news.results.length === 0) {
     return (
