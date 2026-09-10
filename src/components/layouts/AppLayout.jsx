@@ -13,8 +13,8 @@ const AppLayout = () => {
   const isLoading = navigation.state === "loading";
 
   return (
-    <div className='app'>
-      <main className='screen'>
+    <div className="app">
+      <main className="screen">
         {isLoading ? <Loading /> : <Outlet />}
         <ScrollRestoration />
       </main>

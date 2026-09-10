@@ -10,3 +10,6 @@ const raw =
 
 // Fjern evt. skråstreg(er) til sidst, så loaderne kan sætte "/schedule" direkte på.
 export const serverPath = raw.replace(/\/+$/, "");
+
+// Nyheder hentes nu gennem VORES eget API (/news-proxy), så news-nøglen bliver
+// på serveren og ikke i den offentlige frontend-bundle.

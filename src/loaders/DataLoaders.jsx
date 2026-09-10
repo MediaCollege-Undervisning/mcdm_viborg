@@ -14,14 +14,44 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
-// Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
-export const homeLoader = async () => {
-  // TODO (code-along): hent rigtige data, når API'et er klar, fx:
-  // const news = await getData("/news", "Kunne ikke hente nyheder");
-  // return { news };
-  return {};
+// Nyheder hentes gennem VORES eget API (/news-proxy), så news-nøglen bliver på
+// serveren og ikke i frontend-bundlen.
+//
+// VIGTIGT (infoskærm-princip): en fejl her må IKKE vælte hele skærmen. Derfor
+// kaster vi ikke - vi returnerer null, hvis kaldet fejler, så resten af
+// modulerne roterer videre. News-komponenten viser da bare sin egen
+// "Henter seneste nyheder..."-tilstand.
+const getNewsData = async () => {
+  try {
+    const res = await fetch(`${serverPath}/news`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data; // API'et pakker svaret i { status, message, data }
+  } catch {
+    return null;
+  }
 };
 
-// Undgår "getData er defineret men ikke brugt"-advarsel, indtil den bruges i
-// jeres egne loaders ovenfor. Fjern denne linje, når I bruger getData.
-void getData;
+// Holdene, hvis skema vi viser på startskærmen.
+const holds = ["WebH125-2", "WebH126-1", "WebGF22602", "WebH126-2"];
+
+// Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
+export const homeLoader = async () => {
+  const [news, scheduleResults] = await Promise.all([
+    getNewsData(),
+    Promise.all(
+      holds.map((hold) =>
+        getData(
+          `/schedule/${encodeURIComponent(hold)}/today`,
+          `Kunne ikke hente skema for ${hold}`,
+        ),
+      ),
+    ),
+  ]);
+
+  const schedules = scheduleResults
+    .filter((result) => result.status === "ok")
+    .map((result) => result.data);
+
+  return { news, schedules };
+};

@@ -5,7 +5,7 @@ import styles from "./loading.module.css";
 const Loading = () => {
   return (
     <div className={styles.loading}>
-      <PulseLoader color='#ffffff' />
+      <PulseLoader color="#ffffff" />
     </div>
   );
 };
