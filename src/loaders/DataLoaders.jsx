@@ -1,4 +1,4 @@
-import { serverPath, newsPath } from "../settings";
+import { serverPath } from "../settings";
 
 /* Loaders HENTER data, før et modul vises (kaldes automatisk af React Router).
    Resultatet læses i komponenten med useLoaderData().
@@ -14,12 +14,22 @@ const getData = async (path, errorText = "Fejl ved hentning") => {
   return res.json();
 };
 
-// Nyheder ligger på et selvstændigt feed (VITE_API_NEWS), ikke på vores eget
-// API - derfor sin egen hjælper med fuld URL i stedet for serverPath + path.
-const getNewsData = async (errorText = "Fejl ved hentning") => {
-  const res = await fetch(newsPath);
-  if (!res.ok) throw new Response(errorText, { status: res.status });
-  return res.json();
+// Nyheder hentes gennem VORES eget API (/news-proxy), så news-nøglen bliver på
+// serveren og ikke i frontend-bundlen.
+//
+// VIGTIGT (infoskærm-princip): en fejl her må IKKE vælte hele skærmen. Derfor
+// kaster vi ikke - vi returnerer null, hvis kaldet fejler, så resten af
+// modulerne roterer videre. News-komponenten viser da bare sin egen
+// "Henter seneste nyheder..."-tilstand.
+const getNewsData = async () => {
+  try {
+    const res = await fetch(`${serverPath}/news`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data; // API'et pakker svaret i { status, message, data }
+  } catch {
+    return null;
+  }
 };
 
 // Holdene, hvis skema vi viser på startskærmen.
@@ -28,7 +38,7 @@ const holds = ["WebH125-2", "WebH126-1", "WebGF22602", "WebH126-2"];
 // Startskærmen. Returnér et objekt, så det er nemt at udvide senere.
 export const homeLoader = async () => {
   const [news, scheduleResults] = await Promise.all([
-    getNewsData("Kunne ikke hente nyheder"),
+    getNewsData(),
     Promise.all(
       holds.map((hold) =>
         getData(
