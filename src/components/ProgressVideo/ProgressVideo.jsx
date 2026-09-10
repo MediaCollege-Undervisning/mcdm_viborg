@@ -16,7 +16,6 @@ const data = await fetchData();
 const video = data.media[0];
 
 export function ProgressVideo() {
-  console.log(video);
   return (
     <div className={s.frame}>
       <video
