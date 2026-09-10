@@ -10,6 +10,9 @@ import Schedule from "../components/scheduleComp/ScheduleComp";
 import { ProgressVideo } from "../components/ProgressVideo/ProgressVideo";
 import Time from "../components/timeDisplay/timeDisplay";
 import News from "../components/news/News";
+import Web from "../components/uddannelse-tid/web";
+import FTP from "../components/uddannelse-tid/FTP";
+import Foto from "../components/uddannelse-tid/Foto";
 
 const Home = () => {
   // Data hentet af homeLoader (se DataLoaders.jsx).
@@ -22,6 +25,9 @@ const Home = () => {
     <Schedule key="schedule" schedules={schedules} />,
     <ProgressVideo key="video" />,
     <News key="news" news={news} />,
+    <Web key="web"/>,
+    <FTP key="ftp"/>,
+    <Foto key="foto"/>
   ];
 
   // Viser ét modul ad gangen og skifter hvert 10. sekund (10000 ms).
@@ -31,7 +37,7 @@ const Home = () => {
   // Kun {active} skifter hvert 10. sekund nedenunder.
   return (
     <article className="home">
-      <h1>Infoskærm</h1>
+      <h1>MediaCollege Denmark</h1>
       {active}
     </article>
   );
