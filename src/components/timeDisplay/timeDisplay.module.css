@@ -4,26 +4,42 @@
   right: 20px;
 }
 
-.clock span:nth-child(1) {
-  color: #ff6633;
+.clock span {
+  font-size: 3rem;
 }
 
 .clock span:nth-child(2) {
-  color: #ff9933;
+  color: #ff6633;
 }
 
 .clock span:nth-child(3) {
-  color: #006666;
+  color: #ff9933;
 }
 
 .clock span:nth-child(4) {
-  color: #ff9933;
+  color: white;
 }
 
 .clock span:nth-child(5) {
   color: #ff6633;
 }
 
+.clock span:nth-child(6) {
+  color: #ff9933;
+}
+
 .clockSeconds {
-  color: #006666;
+  color: white;
+  font-size: 2rem;
+}
+
+.icon {
+  width: 35px;
+  height: 35px;
+  margin-left: 6rem;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
