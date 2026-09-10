@@ -10,6 +10,7 @@ import Schedule from "../components/scheduleComp/ScheduleComp";
 import { ProgressVideo } from "../components/ProgressVideo/ProgressVideo";
 import Time from "../components/timeDisplay/timeDisplay";
 import News from "../components/news/News";
+import Web from "../components/uddannelse-tid/web";
 
 const Home = () => {
   // Data hentet af homeLoader (se DataLoaders.jsx).
@@ -22,6 +23,7 @@ const Home = () => {
     <Schedule key="schedule" schedules={schedules} />,
     <ProgressVideo key="video" />,
     <News key="news" news={news} />,
+    <Web key="web" />,
   ];
 
   // Viser ét modul ad gangen og skifter hvert 10. sekund (10000 ms).

@@ -1,11 +1,11 @@
 import styles from "./news.module.css";
 
 const News = ({ news }) => {
-  console.log(news);
-
   if (!news || !news.results || news.results.length === 0) {
     return (
-      <div className={styles.loadingScreen}>Henter seneste nyheder...</div>
+      <div className={styles.loadingScreen}>
+        Nyheder er ikke tilgængelige lige nu
+      </div>
     );
   }
 

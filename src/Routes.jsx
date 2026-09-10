@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Loading from "./components/loading/Loading";
 import ErrorElement from "./components/feedbackElements/ErrorElement";
+import Web from "./components/uddannelse-tid/web";
 import { homeLoader } from "./loaders/DataLoaders";
 
 /* Her defineres alle ruter. Infoskærmen har INGEN synlig navigation - der er
@@ -28,6 +29,8 @@ const routes = createBrowserRouter(
         loader={homeLoader}
         errorElement={<ErrorElement />}
       />
+
+      <Route path="webudvikler" element={<Web />} />
 
       {/* TODO (code-along): tilføj et modul som en rute, fx temperaturen:
       <Route
