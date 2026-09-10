@@ -1,6 +1,20 @@
-.video {
+.frame {
+  position: relative;
+  overflow: hidden;
+  width: 512px;
+  height: 256px;
   outline: 16px solid rgb(27, 46, 66);
   border-radius: 16px;
-  width: 512px;
   margin-top: 32px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.5);
+  }
 }
